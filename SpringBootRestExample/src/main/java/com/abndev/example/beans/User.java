@@ -13,23 +13,36 @@ import java.time.LocalDate;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * User bean.
  * 
  * @since 2018.06.01
  * @author annik
  */
+@ApiModel( description = "All details about user." )
 public class User {
+
+    private static final String LASTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS =
+        "Lastname must have atleast 2 characters";
+
+    private static final String FIRSTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS =
+        "Firstname must have atleast 2 characters";
 
     private Integer gid;
 
-    @Size( min = 2, message = "Firstname must have atleast 2 characters" )
+    @Size( min = 2, message = FIRSTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS )
+    @ApiModelProperty( notes = FIRSTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS )
     private String firstname;
 
-    @Size( min = 2, message = "Lastname must have atleast 2 characters" )
+    @Size( min = 2, message = LASTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS )
+    @ApiModelProperty( notes = LASTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS )
     private String lastname;
 
     @Past( )
+    @ApiModelProperty( notes = "Birth must be in past." )
     private LocalDate birthDate;
 
     public Integer getGid() {

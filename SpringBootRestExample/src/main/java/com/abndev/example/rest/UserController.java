@@ -39,7 +39,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author annik
  */
 @RestController
-@RequestMapping( value = "/api/users" )
+@RequestMapping( value = "/api/users", produces = {"application/json"} )
 public class UserController {
 
     @Autowired
@@ -91,6 +91,7 @@ public class UserController {
     public ResponseEntity<Object> createUser( @Valid @RequestBody User user ) {
 
         final User savedUser = userService.save( user );
+
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path( "/{id}" )
             .buildAndExpand( savedUser.getGid() )

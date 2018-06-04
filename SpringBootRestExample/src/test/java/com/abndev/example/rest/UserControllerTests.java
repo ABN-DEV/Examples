@@ -87,7 +87,7 @@ public class UserControllerTests extends AbstractTests {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void retrieveOneUserTest() throws Exception {
 
         User newUser = new User( null, "IVAN", "GOVNOV", LocalDate.of( 1990, 3, 21 ) );
