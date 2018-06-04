@@ -21,6 +21,7 @@ import com.abndev.example.dao.UserService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,8 +81,44 @@ public class UserControllerTests extends AbstractTests {
         mockMvc.perform( get( "/api/users" ) )
             .andExpect( status().isOk() )
             .andExpect( content().contentTypeCompatibleWith( MediaType.APPLICATION_JSON ) )
-        .andExpect( content().json( jsonContent.toString(), false ) );
+            .andExpect( content().json( jsonContent.toString(), false ) );
 
     }
+
+    @Test
+    public void retrieveOneUserTest() throws Exception {
+
+        User newUser = new User( null, "IVAN", "GOVNOV", LocalDate.of( 1990, 3, 21 ) );
+
+        User createdUser = new User( 1, "IVAN", "GOVNOV", LocalDate.of( 1990, 3, 21 ) );
+
+        when( userServiceMock.save( newUser ) ).thenReturn( createdUser );
+
+        StringBuilder jsonContent = new StringBuilder();
+        jsonContent.append( "{" )
+//            .append( "\"gid\":1," )
+            .append( "\"firstname\":\"IVAN\"," )
+            .append( "\"lastname\":\"GOVNOV\"," )
+            .append( "\"birthDate\":[1990,3,21]" )
+            .append( "}" );
+
+        StringBuilder contentResponse = new StringBuilder();
+        jsonContent.append( "{" )
+            .append( "\"gid\":1," )
+            .append( "\"firstname\":\"IVAN\"," )
+            .append( "\"lastname\":\"GOVNOV\"," )
+            .append( "\"birthDate\":[1990,3,21]" )
+            .append( "}" );
+
+        mockMvc.perform( post( "/api/users" ).contentType( MediaType.APPLICATION_JSON_UTF8 )
+            .content( jsonContent.toString() ) )
+            .andExpect( status().isOk() )
+            .andExpect( content().contentTypeCompatibleWith( MediaType.APPLICATION_JSON ) )
+            .andExpect( content().json( contentResponse.toString(), false ) );
+    }
+
+    /**
+     * User Not Found Exception - TODO
+     */
 
 }

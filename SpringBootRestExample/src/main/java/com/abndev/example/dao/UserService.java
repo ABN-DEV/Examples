@@ -10,7 +10,9 @@ package com.abndev.example.dao;
 
 import com.abndev.example.beans.User;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -22,8 +24,37 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    /**
+     * Find all {@link User}s.
+     * 
+     * @return
+     */
     public List<User> findAllUsers() {
 
-        return null;
+        List<User> all = new ArrayList<User>();
+        return all;
+    }
+
+    /**
+     * Find one {@link User}.
+     * 
+     * @param id
+     * @return {@link User} with id or null.
+     */
+    public Optional<User> findOne( int id ) {
+
+        return Optional.empty();
+    }
+
+    /**
+     * Save {@link User}.
+     * 
+     * @param user
+     * @return
+     */
+    public User save( User user ) {
+
+        // TODO Auto-generated method stub
+        return user;
     }
 }
