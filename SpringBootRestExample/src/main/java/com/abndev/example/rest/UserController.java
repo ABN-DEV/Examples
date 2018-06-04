@@ -8,6 +8,8 @@
  */
 package com.abndev.example.rest;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+
 import com.abndev.example.beans.User;
 import com.abndev.example.dao.UserService;
 import com.abndev.example.exception.UserNotFoundException;
@@ -19,6 +21,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,9 +60,10 @@ public class UserController {
      * 
      * @param id
      *            of {@link User}
+     * @return
      */
     @GetMapping( "/{id}" )
-    public User retrieveUser( @PathVariable int id ) {
+    public Resource<User> retrieveUser( @PathVariable int id ) {
 
         User user = null;
         Optional<User> found = userService.findOne( id );
@@ -67,7 +72,14 @@ public class UserController {
         } else {
             throw new UserNotFoundException( "id-" + id );
         }
-        return user;
+
+        // HATEOAS
+        Resource<User> resource = new Resource<User>( user );
+
+        ControllerLinkBuilder linkTo = linkTo( methodOn( this.getClass() ).retrieveAllUsers() );
+        resource.add( linkTo.withRel( "all-users" ) );
+
+        return resource;
     }
 
     /**
