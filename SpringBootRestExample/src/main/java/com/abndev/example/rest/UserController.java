@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,6 +84,16 @@ public class UserController {
 
         return ResponseEntity.created( uri )
             .build();
+    }
+
+    @DeleteMapping( value = {"/{id}"} )
+    public void createUser( @PathVariable long id ) {
+
+        final User user = userService.deleteById( id );
+
+        if ( user == null ) {
+            throw new UserNotFoundException( "id-" + id );
+        }
     }
 
 }

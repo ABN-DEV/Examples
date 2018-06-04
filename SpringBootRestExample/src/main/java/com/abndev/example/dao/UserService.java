@@ -57,4 +57,12 @@ public class UserService {
         // TODO Auto-generated method stub
         return user;
     }
+
+    public User deleteById( long id ) {
+
+        User user = null;
+        
+        return user;
+    }
+
 }
