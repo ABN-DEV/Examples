@@ -10,6 +10,9 @@ package com.abndev.example.beans;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 /**
  * User bean.
  * 
@@ -20,10 +23,13 @@ public class User {
 
     private Integer gid;
 
+    @Size( min = 2, message = "Firstname must have atleast 2 characters" )
     private String firstname;
 
+    @Size( min = 2, message = "Lastname must have atleast 2 characters" )
     private String lastname;
 
+    @Past( )
     private LocalDate birthDate;
 
     public Integer getGid() {
