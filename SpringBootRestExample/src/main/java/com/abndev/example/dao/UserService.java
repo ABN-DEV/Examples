@@ -9,14 +9,12 @@
 package com.abndev.example.dao;
 
 import com.abndev.example.beans.User;
+import com.abndev.example.repo.UserRepository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,17 +25,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    private static List<User> users = new ArrayList<>();
-
-    private static int userCount = 5;
-
-    static {
-        users.add( new User( 1, "IVAN", "PETROV", LocalDate.of( 1970, 1, 1 ) ) );
-        users.add( new User( 2, "ANDREY", "BARANOV", LocalDate.of( 1971, 2, 2 ) ) );
-        users.add( new User( 3, "SERGEY", "KOZLOV", LocalDate.of( 1972, 3, 3 ) ) );
-        users.add( new User( 4, "JOHN", "DOE", LocalDate.of( 1973, 4, 4 ) ) );
-        users.add( new User( 5, "JACK", "LEVRON", LocalDate.of( 1974, 5, 5 ) ) );
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Find all {@link User}s.
@@ -46,7 +35,7 @@ public class UserService {
      */
     public List<User> findAllUsers() {
 
-        return users;
+        return userRepository.findAll();
     }
 
     /**
@@ -57,12 +46,7 @@ public class UserService {
      */
     public Optional<User> findOne( int id ) {
 
-        Optional<User> findFirst = users.stream()
-            .filter( t -> t.getGid()
-                .equals( id ) )
-            .findFirst();
-
-        return findFirst;
+        return userRepository.findById( id );
     }
 
     /**
@@ -73,29 +57,19 @@ public class UserService {
      */
     public User save( User user ) {
 
-        if ( user.getGid() == null ) {
-            user.setGid( ++userCount );
-        }
-        users.add( user );
-
+        user = userRepository.save( user );
         return user;
     }
 
-    public User deleteById( long id ) {
+    public User deleteById( int id ) {
 
-        User user = null;
-
-        Iterator<User> iterator = users.iterator();
-        while (iterator.hasNext()) {
-            user = (User) iterator.next();
-            if ( user.getGid()
-                .equals( id ) ) {
-                users.remove( user );
-                break;
-            }
+        User result = null;
+        Optional<User> user = userRepository.findById( id );
+        if ( user.isPresent() ) {
+            result = user.get();
+            userRepository.deleteById( (int) id );
         }
-
-        return user;
+        return result;
     }
 
 }

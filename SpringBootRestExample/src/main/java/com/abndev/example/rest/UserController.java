@@ -102,7 +102,7 @@ public class UserController {
     }
 
     @DeleteMapping( value = {"/{id}"} )
-    public void createUser( @PathVariable long id ) {
+    public void createUser( @PathVariable int id ) {
 
         final User user = userService.deleteById( id );
 
