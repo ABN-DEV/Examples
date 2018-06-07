@@ -90,31 +90,30 @@ public class UserControllerTests extends AbstractTests {
 //    @Ignore
     public void retrieveOneUserTest() throws Exception {
 
-        User newUser = new User( null, "IVAN", "GOVNOV", LocalDate.of( 1990, 3, 21 ) );
+        User newUser = new User( null, "IVAN3", "GOVNOV3", LocalDate.of( 1990, 3, 21 ) );
 
-        User createdUser = new User( 1, "IVAN", "GOVNOV", LocalDate.of( 1990, 3, 21 ) );
+        User createdUser = new User( -1, "IVAN3", "GOVNOV3", LocalDate.of( 1990, 3, 21 ) );
 
         when( userServiceMock.save( newUser ) ).thenReturn( createdUser );
 
         StringBuilder jsonContent = new StringBuilder();
         jsonContent.append( "{" )
-//            .append( "\"gid\":1," )
-            .append( "\"firstname\":\"IVAN\"," )
-            .append( "\"lastname\":\"GOVNOV\"," )
+            .append( "\"firstname\":\"IVAN3\"," )
+            .append( "\"lastname\":\"GOVNOV3\"," )
             .append( "\"birthDate\":[1990,3,21]" )
             .append( "}" );
 
         StringBuilder contentResponse = new StringBuilder();
-        jsonContent.append( "{" )
+        contentResponse.append( "{" )
             .append( "\"gid\":1," )
             .append( "\"firstname\":\"IVAN\"," )
             .append( "\"lastname\":\"GOVNOV\"," )
             .append( "\"birthDate\":[1990,3,21]" )
             .append( "}" );
 
-        mockMvc.perform( post( "/api/users" ).contentType( MediaType.APPLICATION_JSON_UTF8 )
+        mockMvc.perform( post( "/api/users" ).contentType( MediaType.APPLICATION_JSON )
             .content( jsonContent.toString() ) )
-            .andExpect( status().isOk() )
+            .andExpect( status().isCreated() )
             .andExpect( content().contentTypeCompatibleWith( MediaType.APPLICATION_JSON ) )
             .andExpect( content().json( contentResponse.toString(), false ) );
     }
