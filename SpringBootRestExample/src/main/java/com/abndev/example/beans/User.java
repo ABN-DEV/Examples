@@ -10,6 +10,9 @@ package com.abndev.example.beans;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -23,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author annik
  */
 @ApiModel( description = "All details about user." )
+@Entity
 public class User {
 
     private static final String LASTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS =
@@ -31,6 +35,8 @@ public class User {
     private static final String FIRSTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS =
         "Firstname must have atleast 2 characters";
 
+    @Id
+    @GeneratedValue
     private Integer gid;
 
     @Size( min = 2, message = FIRSTNAME_MUST_HAVE_ATLEAST_2_CHARACTERS )

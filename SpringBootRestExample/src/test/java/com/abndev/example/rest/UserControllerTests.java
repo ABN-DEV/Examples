@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.abndev.example.beans.User;
 import com.abndev.example.dao.UserService;
+import com.abndev.example.repo.UserRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+
+import static org.junit.Assert.assertNotNull;
 
 // static import MockMvcRequestBuilders.*;
 // static import MockMvcResultMatchers.*
@@ -42,6 +45,9 @@ public class UserControllerTests extends AbstractTests {
     @Autowired
     @MockBean
     private UserService userServiceMock;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * @throws Exception
@@ -87,7 +93,7 @@ public class UserControllerTests extends AbstractTests {
     }
 
     @Test
-//    @Ignore
+    @Ignore
     public void retrieveOneUserTest() throws Exception {
 
         User newUser = new User( null, "IVAN3", "GOVNOV3", LocalDate.of( 1990, 3, 21 ) );
