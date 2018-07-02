@@ -22,12 +22,20 @@ public class UserNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Contructor.
+     */
     public UserNotFoundException() {
 
         super();
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * Contructor.
+     * 
+     * @param message
+     */
     public UserNotFoundException( String message ) {
 
         super( message );

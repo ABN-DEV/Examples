@@ -8,7 +8,6 @@
  */
 package com.abndev.example.exception;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**

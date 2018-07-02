@@ -43,6 +43,15 @@ public class CustomizedResponseExnityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<Object>( exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR );
     }
 
+    /**
+     * 404
+     * 
+     * @param ex
+     *            is the {@link Exception}
+     * @param request
+     *            the {@link WebRequest}
+     * @return
+     */
     @ExceptionHandler( UserNotFoundException.class )
     public final ResponseEntity<Object> handleUserNotFoundExceptions( Exception ex,
             WebRequest request ) {
@@ -53,6 +62,9 @@ public class CustomizedResponseExnityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<Object>( exceptionResponse, HttpStatus.NOT_FOUND );
     }
 
+    /**
+     * 400
+     */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid( MethodArgumentNotValidException ex,
             HttpHeaders headers,
