@@ -27,6 +27,7 @@ import java.util.Optional;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
@@ -40,6 +41,7 @@ import static org.junit.Assert.assertNotNull;
  * @since 2018.06.01
  * @author annik
  */
+//@WebMvcTest
 public class UserControllerTests extends AbstractTests {
 
     @Autowired
