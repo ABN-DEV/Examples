@@ -1,0 +1,45 @@
+<!-- http://logback.qos.ch/manual/architecture.html Level : TRACE,DEBUG,INFO,WARN,ERROR,OFF 
+	%n - LF -->
+<configuration>
+
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
+			<pattern>[%d{HH:mm:ss.SSS}] [%-5level] %logger{36} - %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework" level="INFO" />
+
+	<logger name="org.hibernate" level="DEBUG" />
+
+	<logger name="org.hibernate.type" level="TRACE" />
+	<logger name="org.hibernate.SQL" level="TRACE" />
+	<logger name="org.hibernate.hql" level="TRACE" />
+	<logger name="org.hibernate.jdbc" level="TRACE" />
+
+	<logger name="net.sf.hibernate.hql.QueryTranslator"
+		level="TRACE" />
+
+	<!-- Escort -->
+	<logger name="app" level="TRACE" />
+
+	<root level="DEBUG">
+		<!-- <appender-ref ref="FILE" /> -->
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<root level="warn">
+		<!-- <appender-ref ref="FILE" /> -->
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<root level="info">
+		<!-- <appender-ref ref="FILE" /> -->
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>
