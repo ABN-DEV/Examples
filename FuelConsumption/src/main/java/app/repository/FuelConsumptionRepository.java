@@ -8,10 +8,14 @@
  */
 package app.repository;
 
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import app.domain.FuelConsumption;
+import app.json.TotalSpentAmount;
 
 /**
  * {@link FuelConsumption} repository interface.
@@ -21,5 +25,16 @@ import app.domain.FuelConsumption;
  */
 @Repository
 public interface FuelConsumptionRepository extends CrudRepository<FuelConsumption, Long> {
+
+    /**
+     * Found all FuelConsumption.
+     * 
+     * @return
+     */
+    @Query( value = " SELECT fc FROM FuelConsumption fc ORDER BY date asc " )
+    Collection<FuelConsumption> findTotalSpentAmountPerMonth();
+
+    @Query( value = " SELECT fc FROM FuelConsumption fc WHERE fc.driver = ?1 ORDER BY date asc " )
+    Collection<FuelConsumption> findTotalSpentAmountPerMonthByDriver( Integer driverId );
 
 }

@@ -8,6 +8,8 @@
  */
 package app.rest;
 
+import java.util.concurrent.ConcurrentMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.json.TotalSpentAmount;
 import app.service.FuelConsumptionService;
 
 /**
@@ -36,16 +39,18 @@ public class RetrieveController {
     /**
      * Retrieve total spent amount of money grouped by month.
      * 
-     * @return 
+     * @return
      */
     @GetMapping( produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object> retrieveTotal() {
 
         ResponseEntity<Object> result = null;
-        
-        totalSpentAmount = fuelConsumptionService.findTotalSpentAmount();
 
-        return result;
+        ConcurrentMap<String, TotalSpentAmount> totalSpentAmount =
+            fuelConsumptionService.findTotalSpentAmount( null );
+
+        return result.ok()
+            .body( totalSpentAmount );
     }
 
 }
