@@ -213,7 +213,9 @@ public class FuelConsumption {
     public String toString() {
 
         StringBuilder builder = new StringBuilder();
-        builder.append( "FuelConsumption [fuelType=" );
+        builder.append( "FuelConsumption [gid=" );
+        builder.append( gid );
+        builder.append( ", fuelType=" );
         builder.append( fuelType );
         builder.append( ", price=" );
         builder.append( price );
@@ -239,6 +241,7 @@ public class FuelConsumption {
         result = prime * result + ( ( date == null ) ? 0 : date.hashCode() );
         result = prime * result + ( ( driverId == null ) ? 0 : driverId.hashCode() );
         result = prime * result + ( ( fuelType == null ) ? 0 : fuelType.hashCode() );
+        result = prime * result + ( ( gid == null ) ? 0 : gid.hashCode() );
         result = prime * result + ( ( price == null ) ? 0 : price.hashCode() );
         result = prime * result + ( ( volume == null ) ? 0 : volume.hashCode() );
         return result;
@@ -262,6 +265,9 @@ public class FuelConsumption {
             if ( other.driverId != null ) return false;
         } else if ( !driverId.equals( other.driverId ) ) return false;
         if ( fuelType != other.fuelType ) return false;
+        if ( gid == null ) {
+            if ( other.gid != null ) return false;
+        } else if ( !gid.equals( other.gid ) ) return false;
         if ( price == null ) {
             if ( other.price != null ) return false;
         } else if ( !price.equals( other.price ) ) return false;
