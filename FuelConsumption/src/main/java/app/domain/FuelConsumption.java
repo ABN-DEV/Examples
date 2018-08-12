@@ -8,6 +8,7 @@
  */
 package app.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -15,7 +16,9 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,7 +31,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author Andre.B.Nikitin
  */
 @Entity
-@Table( name = "FUEL_CONSUMPTION" )
+@Table( name = "FUEL_CONSUMPTION",
+
+        indexes = {@Index( columnList = "fuelType,price,volume,date,driverId",
+                name = "unq_fuel_pr_vol_date_driver", unique = true )}
+
+)
 public class FuelConsumption {
 
     @Id
@@ -41,10 +49,12 @@ public class FuelConsumption {
     private FuelType fuelType;
 
     @Column
-    private Float price;
+    @Digits( fraction = 2, integer = 1000000 )
+    private BigDecimal price;
 
-    @Column
-    private Float volume;
+    @Column( scale = 2, precision = 2 )
+    @Digits( fraction = 2, integer = 1000000 )
+    private BigDecimal volume;
 
     @Column
     @DateTimeFormat( pattern = "MM.dd.yyyy" )
@@ -70,7 +80,8 @@ public class FuelConsumption {
      * @param date
      * @param driverId
      */
-    public FuelConsumption( FuelType fuel, Float price, Float volume, LocalDate date, Integer driverId ) {
+    public FuelConsumption( FuelType fuel, BigDecimal price, BigDecimal volume, LocalDate date,
+            Integer driverId ) {
 
         fuelType = fuel;
         this.price = price;
@@ -126,7 +137,7 @@ public class FuelConsumption {
      * 
      * @return the price
      */
-    public Float getPrice() {
+    public BigDecimal getPrice() {
 
         return price;
     }
@@ -137,7 +148,7 @@ public class FuelConsumption {
      * @param price
      *            the price to set
      */
-    public void setPrice( Float price ) {
+    public void setPrice( BigDecimal price ) {
 
         this.price = price;
     }
@@ -147,7 +158,7 @@ public class FuelConsumption {
      * 
      * @return the volume
      */
-    public Float getVolume() {
+    public BigDecimal getVolume() {
 
         return volume;
     }
@@ -158,7 +169,7 @@ public class FuelConsumption {
      * @param volume
      *            the volume to set
      */
-    public void setVolume( Float volume ) {
+    public void setVolume( BigDecimal volume ) {
 
         this.volume = volume;
     }

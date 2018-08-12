@@ -9,6 +9,7 @@
 package app.rest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -51,9 +52,9 @@ public class RegisterJsonParser {
      * 
      * @return {@link List} of {@link FuelConsumption}s.
      */
-    public List<FuelConsumption> parse() throws HttpMessageNotReadableException {
+    public Collection<FuelConsumption> parse() throws HttpMessageNotReadableException {
 
-        List<FuelConsumption> fuelConsumptions = new ArrayList<>();
+        Collection<FuelConsumption> fuelConsumptions = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
 //        mapper.configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false );

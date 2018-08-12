@@ -8,8 +8,10 @@
  */
 package app.rest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
@@ -44,17 +46,17 @@ public class RegisterJsonParserTests {
 
     public static final LocalDate DATE_2019_01_30 = LocalDate.of( 2019, 01, 30 );
 
-    public static final float VOLUME_43_21 = 43.21f;
+    public static final BigDecimal VOLUME_43_21 = BigDecimal.valueOf( 43.21d );
 
-    public static final float VOLUME_43_22 = 43.22f;
+    public static final BigDecimal VOLUME_43_22 = BigDecimal.valueOf( 43.22d );
 
-    public static final float VOLUME_43_23 = 43.23f;
+    public static final BigDecimal VOLUME_43_23 = BigDecimal.valueOf( 43.23d );
 
-    public static final float PRICE_11_23 = 11.23f;
+    public static final BigDecimal PRICE_11_23 = BigDecimal.valueOf( 11.23d );
 
-    public static final float PRICE_11_24 = 11.24f;
+    public static final BigDecimal PRICE_11_24 = BigDecimal.valueOf( 11.24d );
 
-    public static final float PRICE_11_25 = 11.25f;
+    public static final BigDecimal PRICE_11_25 = BigDecimal.valueOf( 11.25d );
 
     public static final FuelType FUEL_TYPE_95 = FuelType.F95;
 
@@ -66,9 +68,9 @@ public class RegisterJsonParserTests {
 
     private String jsonBodyArrayFuelConsumptions;
 
-    private List<FuelConsumption> expectedSingleObject;
+    private Collection<FuelConsumption> expectedSingleObject;
 
-    private List<FuelConsumption> expectedArrayFuelConsumptions;
+    private Collection<FuelConsumption> expectedArrayFuelConsumptions;
 
     /**
      * @throws java.lang.Exception
@@ -86,8 +88,10 @@ public class RegisterJsonParserTests {
         expectedArrayFuelConsumptions = new ArrayList<>();
         expectedArrayFuelConsumptions.add(
             new FuelConsumption( FUEL_TYPE_95, PRICE_11_23, VOLUME_43_21, DATE_2018_11_30, DRIVER_ID_1 ) );
+
         expectedArrayFuelConsumptions.add(
             new FuelConsumption( FUEL_TYPE_98, PRICE_11_24, VOLUME_43_22, DATE_2018_12_30, DRIVER_ID_2 ) );
+
         expectedArrayFuelConsumptions.add(
             new FuelConsumption( FUEL_TYPE_D, PRICE_11_25, VOLUME_43_23, DATE_2019_01_30, DRIVER_ID_3 ) );
 
@@ -98,7 +102,7 @@ public class RegisterJsonParserTests {
 
         RegisterJsonParser parser = new RegisterJsonParser( jsonBodyObject );
 
-        List<FuelConsumption> result = parser.parse();
+        Collection<FuelConsumption> result = parser.parse();
 
         assertEquals( "Result of parse is not equal.", expectedSingleObject, result );
     }
@@ -108,7 +112,7 @@ public class RegisterJsonParserTests {
 
         RegisterJsonParser parser = new RegisterJsonParser( jsonBodyArrayFuelConsumptions );
 
-        List<FuelConsumption> result = parser.parse();
+        Collection<FuelConsumption> result = parser.parse();
 
         assertEquals( "Result of parse is not equal.", expectedArrayFuelConsumptions, result );
     }

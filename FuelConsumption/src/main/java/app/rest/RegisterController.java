@@ -8,7 +8,7 @@
  */
 package app.rest;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.domain.FuelConsumption;
-import app.repository.FuelConsumptionService;
+import app.service.FuelConsumptionService;
 
 /**
  * 
@@ -53,22 +53,17 @@ public class RegisterController {
             throw new HttpMessageNotReadableException( "Body is empty." );
         }
 
-        List<FuelConsumption> fuelConsumptions = new RegisterJsonParser( jsonBody ).parse();
+        Collection<FuelConsumption> fuelConsumptions = new RegisterJsonParser( jsonBody ).parse();
 
         LOG.debug( "Parsed FuelConsumption from JSON: {}", fuelConsumptions );
 
-        List<FuelConsumption> savedFuelConsumptions =
-            (List<FuelConsumption>) fuelConsumptionService.saveAll( fuelConsumptions );
-
-//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-//            .path( "/{id}" )
-//            .buildAndExpand( savedUser.getGid() )
-//            .toUri();
+        Collection<FuelConsumption> savedFuelConsumptions =
+            fuelConsumptionService.saveAll( fuelConsumptions );
 
         LOG.debug( "Saved Fuel Consumptions: {}", savedFuelConsumptions );
 
         return ResponseEntity.ok()
-            .build();
+            .body( savedFuelConsumptions );
     }
 
 }
