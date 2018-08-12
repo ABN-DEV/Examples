@@ -57,7 +57,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith( SpringRunner.class )
 @WebAppConfiguration
 @SpringBootTest
-public class ResgisterControllerTests {
+public class RegisterControllerTests {
 
     public static String JSON_MOCKED_REQUEST_1_OBJECT = "{\"fuelType\":\"" + FUEL_TYPE_95.getValue()
         + "\", "
@@ -130,7 +130,7 @@ public class ResgisterControllerTests {
         + " } "
         + "]";
 
-    private static final Logger LOG = LoggerFactory.getLogger( ResgisterControllerTests.class );
+    private static final Logger LOG = LoggerFactory.getLogger( RegisterControllerTests.class );
 
     protected MockMvc mockMvc;
 

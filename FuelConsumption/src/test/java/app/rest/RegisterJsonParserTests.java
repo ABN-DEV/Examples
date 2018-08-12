@@ -78,8 +78,8 @@ public class RegisterJsonParserTests {
     @Before
     public void setUp() throws Exception {
 
-        jsonBodyObject = ResgisterControllerTests.JSON_MOCKED_REQUEST_1_OBJECT;
-        jsonBodyArrayFuelConsumptions = ResgisterControllerTests.JSON_MOCKED_REQUEST_ARRAY_FUEL_CONSUMPTIONS;
+        jsonBodyObject = RegisterControllerTests.JSON_MOCKED_REQUEST_1_OBJECT;
+        jsonBodyArrayFuelConsumptions = RegisterControllerTests.JSON_MOCKED_REQUEST_ARRAY_FUEL_CONSUMPTIONS;
 
         expectedSingleObject = new ArrayList<FuelConsumption>();
         expectedSingleObject.add(
