@@ -8,7 +8,7 @@
  */
 package app.rest;
 
-import static app.rest.RegisterJsonParserTests.DATE_2018_11_30;
+import static app.rest.RegisterJsonParserTests.*;
 import static app.rest.RegisterJsonParserTests.DRIVER_ID_1;
 import static app.rest.RegisterJsonParserTests.FUEL_TYPE_95;
 import static app.rest.RegisterJsonParserTests.PRICE_11_23;
@@ -60,6 +60,61 @@ public class ResgisterControllerTests {
         + DRIVER_ID_1
         + "\" "
         + " }";
+
+    public static final String JSON_MOCKED_REQUEST_ARRAY_FUEL_CONSUMPTIONS = "[" // 
+        + "{\"fuelType\":\""
+        + FUEL_TYPE_95.getValue()
+        + "\", "
+        + "\"price\":\""
+        + PRICE_11_23
+        + "\", "
+        + "\"volume\":\""
+        + VOLUME_43_21
+        + "\", "
+        + "\"date\":\""
+        + DATE_2018_11_30.format( DateTimeFormatter.ofPattern( "MM.dd.yyyy" ) )
+        + "\", "
+        + "\"driverId\":\""
+        + DRIVER_ID_1
+        + "\" "
+        + " }, "
+
+        // second object 
+        + "{\"fuelType\":\""
+        + FUEL_TYPE_98.getValue()
+        + "\", "
+        + "\"price\":\""
+        + PRICE_11_24
+        + "\", "
+        + "\"volume\":\""
+        + VOLUME_43_22
+        + "\", "
+        + "\"date\":\""
+        + DATE_2018_12_30.format( DateTimeFormatter.ofPattern( "MM.dd.yyyy" ) )
+        + "\", "
+        + "\"driverId\":\""
+        + DRIVER_ID_2
+        + "\" "
+        + " }, "
+
+        // firf object 
+        + "{\"fuelType\":\""
+        + FUEL_TYPE_D.getValue()
+        + "\", "
+        + "\"price\":\""
+        + PRICE_11_25
+        + "\", "
+        + "\"volume\":\""
+        + VOLUME_43_23
+        + "\", "
+        + "\"date\":\""
+        + DATE_2019_01_30.format( DateTimeFormatter.ofPattern( "MM.dd.yyyy" ) )
+        + "\", "
+        + "\"driverId\":\""
+        + DRIVER_ID_3
+        + "\" "
+        + " } "
+        + "]";
 
     private static final Logger LOG = LoggerFactory.getLogger( ResgisterControllerTests.class );
 

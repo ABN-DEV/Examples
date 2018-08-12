@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import app.domain.FuelConsumption;
@@ -83,6 +83,20 @@ public class RegisterJsonParser {
 
             // this JSON is Array of Objects
             JSONArray jsonArray = new JSONArray( jsonBody );
+
+            if ( jsonArray instanceof JSONArray ) {
+
+                try {
+                    fuelConsumptions =
+                        mapper.readValue( jsonBody, new TypeReference<List<FuelConsumption>>() {
+                        } );
+
+                } catch (Exception e) {
+                    final String msg = "Json body does not Array of FuelConsumption structure.";
+                    LOG.error( "{} ", msg, e );
+                    throw new HttpMessageNotReadableException( msg, e );
+                }
+            }
 
         }
 
