@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -67,10 +68,10 @@ public class ResgisterControllerTests {
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post( "/register" )
             .contentType( MediaType.APPLICATION_JSON_UTF8_VALUE )
-            .content( JSON_MOCKED_REQUEST );
+            .content( new byte[] {} );
         ;
         ResultActions mvcResult = mockMvc.perform( requestBuilder )
-            .andExpect( status().is5xxServerError() );
+            .andExpect( status().is4xxClientError() );
 
     }
 
