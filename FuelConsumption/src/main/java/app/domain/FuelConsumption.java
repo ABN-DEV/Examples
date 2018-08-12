@@ -11,10 +11,13 @@ package app.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Fuel Consumption data.
@@ -27,29 +30,31 @@ import javax.persistence.Table;
 public class FuelConsumption {
 
     @Column
-    @Enumerated( EnumType.STRING )
-    private FuelType fueltType;
+    @Convert( converter = FuelType.Converter.class )
+    private FuelType fuelType;
 
     @Column
-    private Float fieldName;
+    private Float price;
 
     @Column
-    private Float vloumes;
+    private Float volume;
 
     @Column
+    @DateTimeFormat( pattern = "MM.dd.yyyy" )
+    @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "MM.dd.yyyy" )
     private LocalDate date;
 
     @Column
-    private Integer driveId;
+    private Integer driverId;
 
     /**
      * Getter.
      * 
      * @return the fueltType
      */
-    public FuelType getFueltType() {
+    public FuelType getFuelType() {
 
-        return fueltType;
+        return fuelType;
     }
 
     /**
@@ -58,51 +63,51 @@ public class FuelConsumption {
      * @param fueltType
      *            the fueltType to set
      */
-    public void setFueltType( FuelType fueltType ) {
+    public void setFuelType( FuelType fueltType ) {
 
-        this.fueltType = fueltType;
+        this.fuelType = fueltType;
     }
 
     /**
      * Getter.
      * 
-     * @return the fieldName
+     * @return the price
      */
-    public Float getFieldName() {
+    public Float getPrice() {
 
-        return fieldName;
+        return price;
     }
 
     /**
      * Setter.
      * 
-     * @param fieldName
-     *            the fieldName to set
+     * @param price
+     *            the price to set
      */
-    public void setFieldName( Float fieldName ) {
+    public void setPrice( Float price ) {
 
-        this.fieldName = fieldName;
+        this.price = price;
     }
 
     /**
      * Getter.
      * 
-     * @return the vloumes
+     * @return the volume
      */
-    public Float getVloumes() {
+    public Float getVolume() {
 
-        return vloumes;
+        return volume;
     }
 
     /**
      * Setter.
      * 
-     * @param vloumes
-     *            the vloumes to set
+     * @param volume
+     *            the volume to set
      */
-    public void setVloumes( Float vloumes ) {
+    public void setVolume( Float volume ) {
 
-        this.vloumes = vloumes;
+        this.volume = volume;
     }
 
     /**
@@ -131,9 +136,9 @@ public class FuelConsumption {
      * 
      * @return the driveId
      */
-    public Integer getDriveId() {
+    public Integer getDriverId() {
 
-        return driveId;
+        return driverId;
     }
 
     /**
@@ -142,9 +147,75 @@ public class FuelConsumption {
      * @param driveId
      *            the driveId to set
      */
-    public void setDriveId( Integer driveId ) {
+    public void setDriverId( Integer driverId ) {
 
-        this.driveId = driveId;
+        this.driverId = driverId;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+
+        StringBuilder builder = new StringBuilder();
+        builder.append( "FuelConsumption [fuelType=" );
+        builder.append( fuelType );
+        builder.append( ", price=" );
+        builder.append( price );
+        builder.append( ", volume=" );
+        builder.append( volume );
+        builder.append( ", date=" );
+        builder.append( date );
+        builder.append( ", driverId=" );
+        builder.append( driverId );
+        builder.append( "]" );
+        return builder.toString();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( ( date == null ) ? 0 : date.hashCode() );
+        result = prime * result + ( ( driverId == null ) ? 0 : driverId.hashCode() );
+        result = prime * result + ( ( fuelType == null ) ? 0 : fuelType.hashCode() );
+        result = prime * result + ( ( price == null ) ? 0 : price.hashCode() );
+        result = prime * result + ( ( volume == null ) ? 0 : volume.hashCode() );
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals( Object obj ) {
+
+        if ( this == obj ) return true;
+        if ( obj == null ) return false;
+        if ( !( obj instanceof FuelConsumption ) ) return false;
+        FuelConsumption other = (FuelConsumption) obj;
+        if ( date == null ) {
+            if ( other.date != null ) return false;
+        } else if ( !date.equals( other.date ) ) return false;
+        if ( driverId == null ) {
+            if ( other.driverId != null ) return false;
+        } else if ( !driverId.equals( other.driverId ) ) return false;
+        if ( fuelType != other.fuelType ) return false;
+        if ( price == null ) {
+            if ( other.price != null ) return false;
+        } else if ( !price.equals( other.price ) ) return false;
+        if ( volume == null ) {
+            if ( other.volume != null ) return false;
+        } else if ( !volume.equals( other.volume ) ) return false;
+        return true;
     }
 
 }

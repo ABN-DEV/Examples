@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -40,7 +41,7 @@ public class ResgisterControllerTests {
 
     private static final Logger LOG = LoggerFactory.getLogger( ResgisterControllerTests.class );
 
-    private String JSON_MOCKED_REQUEST = null;
+    private String JSON_MOCKED_REQUEST_1_OBJECT = null;
 
     protected MockMvc mockMvc;
 
@@ -59,12 +60,16 @@ public class ResgisterControllerTests {
             .alwaysDo( print() )
             .build();
 
-        JSON_MOCKED_REQUEST = "";
+        JSON_MOCKED_REQUEST_1_OBJECT = "{\"fuelType\":\"95\", " + "\"price\":\"10.99\", "
+            + "\"volume\":\"43.21\", "
+            + "\"date\":\"12.29.2018\", "
+            + "\"driverId\":\"1\" "
+            + " }";
 
     }
 
     @Test
-    public void test_registerController_post() throws Exception {
+    public void test_registerController_post_emtpy_4xx() throws Exception {
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post( "/register" )
             .contentType( MediaType.APPLICATION_JSON_UTF8_VALUE )
@@ -72,6 +77,23 @@ public class ResgisterControllerTests {
         ;
         ResultActions mvcResult = mockMvc.perform( requestBuilder )
             .andExpect( status().is4xxClientError() );
+
+    }
+
+    @Test
+    public void test_registerController_post_1_object() throws Exception {
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post( "/register" )
+            .contentType( MediaType.APPLICATION_JSON_UTF8_VALUE )
+            .content( JSON_MOCKED_REQUEST_1_OBJECT );
+        ;
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().is2xxSuccessful() );
+
+        final MockHttpServletResponse response = mvcResult.andReturn()
+            .getResponse();
+        
+        LOG.info( "MVC result: status={}, content={} ", response.getStatus(), response.getContentAsString() );
 
     }
 
