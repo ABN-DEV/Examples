@@ -8,7 +8,15 @@
  */
 package app.rest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import app.service.FuelConsumptionService;
 
 /**
  * 
@@ -19,5 +27,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class RetrieveController {
 
     public static final String MAIN_URL = "/retrieve";
+
+    private static final Logger LOG = LoggerFactory.getLogger( RetrieveController.class );
+
+    @Autowired
+    private FuelConsumptionService fuelConsumptionService;
+
+    /**
+     * Retrieve total spent amount of money grouped by month.
+     * 
+     * @return 
+     */
+    @GetMapping( produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+    public ResponseEntity<Object> retrieveTotal() {
+
+        ResponseEntity<Object> result = null;
+        
+        totalSpentAmount = fuelConsumptionService.findTotalSpentAmount();
+
+        return result;
+    }
 
 }
