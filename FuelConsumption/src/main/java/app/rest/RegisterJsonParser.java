@@ -8,7 +8,18 @@
  */
 package app.rest;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import app.domain.FuelConsumption;
 
@@ -19,6 +30,8 @@ import app.domain.FuelConsumption;
  * @author Andre.B.Nikitin
  */
 public class RegisterJsonParser {
+
+    private static final Logger LOG = LoggerFactory.getLogger( RegisterJsonParser.class );
 
     private String jsonBody;
 
@@ -38,9 +51,42 @@ public class RegisterJsonParser {
      * 
      * @return {@link List} of {@link FuelConsumption}s.
      */
-    public List<FuelConsumption> parse() {
+    public List<FuelConsumption> parse() throws HttpMessageNotReadableException {
 
-        return null;
+        List<FuelConsumption> fuelConsumptions = new ArrayList<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+//        mapper.configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false );
+        mapper.registerModule( new JavaTimeModule() );
+
+        if ( jsonBody.trim()
+            .startsWith( "{" ) ) {
+
+            // this JSON is single Object
+            JSONObject jsonObject = new JSONObject( jsonBody );
+
+            if ( jsonObject instanceof JSONObject ) {
+
+                try {
+                    FuelConsumption fuelConsumption = mapper.readValue( jsonBody, FuelConsumption.class );
+                    fuelConsumptions.add( fuelConsumption );
+
+                } catch (Exception e) {
+                    final String msg = "Json body does not FuelConsumption single object structure.";
+                    LOG.error( "{} ", msg, e );
+                    throw new HttpMessageNotReadableException( msg, e );
+                }
+            }
+
+        } else if ( jsonBody.trim()
+            .startsWith( "[" ) ) {
+
+            // this JSON is Array of Objects
+            JSONArray jsonArray = new JSONArray( jsonBody );
+
+        }
+
+        return fuelConsumptions;
     }
 
 }

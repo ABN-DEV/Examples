@@ -8,8 +8,15 @@
  */
 package app.rest;
 
+import static app.rest.RegisterJsonParserTests.DATE_2018_11_30;
+import static app.rest.RegisterJsonParserTests.DRIVER_ID_1;
+import static app.rest.RegisterJsonParserTests.FUEL_TYPE_95;
+import static app.rest.RegisterJsonParserTests.PRICE_11_23;
+import static app.rest.RegisterJsonParserTests.VOLUME_43_21;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,9 +45,23 @@ import org.springframework.web.context.WebApplicationContext;
 @WebMvcTest
 public class ResgisterControllerTests {
 
-    private static final Logger LOG = LoggerFactory.getLogger( ResgisterControllerTests.class );
+    public static String JSON_MOCKED_REQUEST_1_OBJECT = "{\"fuelType\":\"" + FUEL_TYPE_95.getValue()
+        + "\", "
+        + "\"price\":\""
+        + PRICE_11_23
+        + "\", "
+        + "\"volume\":\""
+        + VOLUME_43_21
+        + "\", "
+        + "\"date\":\""
+        + DATE_2018_11_30.format( DateTimeFormatter.ofPattern( "MM.dd.yyyy" ) )
+        + "\", "
+        + "\"driverId\":\""
+        + DRIVER_ID_1
+        + "\" "
+        + " }";
 
-    private String JSON_MOCKED_REQUEST_1_OBJECT = null;
+    private static final Logger LOG = LoggerFactory.getLogger( ResgisterControllerTests.class );
 
     protected MockMvc mockMvc;
 
@@ -59,12 +79,6 @@ public class ResgisterControllerTests {
         mockMvc = MockMvcBuilders.webAppContextSetup( webApplicationContext )
             .alwaysDo( print() )
             .build();
-
-        JSON_MOCKED_REQUEST_1_OBJECT = "{\"fuelType\":\"95\", " + "\"price\":\"10.99\", "
-            + "\"volume\":\"43.21\", "
-            + "\"date\":\"12.29.2018\", "
-            + "\"driverId\":\"1\" "
-            + " }";
 
     }
 
@@ -92,7 +106,7 @@ public class ResgisterControllerTests {
 
         final MockHttpServletResponse response = mvcResult.andReturn()
             .getResponse();
-        
+
         LOG.info( "MVC result: status={}, content={} ", response.getStatus(), response.getContentAsString() );
 
     }

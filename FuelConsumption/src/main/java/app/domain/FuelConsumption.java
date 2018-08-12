@@ -48,6 +48,31 @@ public class FuelConsumption {
     private Integer driverId;
 
     /**
+     * Contructor.
+     */
+    public FuelConsumption() {
+
+    }
+
+    /**
+     * Contructor.
+     * 
+     * @param fuel
+     * @param price
+     * @param volume
+     * @param date
+     * @param driverId
+     */
+    public FuelConsumption( FuelType fuel, Float price, Float volume, LocalDate date, Integer driverId ) {
+
+        fuelType = fuel;
+        this.price = price;
+        this.volume = volume;
+        this.date = date;
+        this.driverId = driverId;
+    }
+
+    /**
      * Getter.
      * 
      * @return the fueltType

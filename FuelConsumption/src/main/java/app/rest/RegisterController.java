@@ -57,7 +57,7 @@ public class RegisterController {
 
         List<FuelConsumption> fuelConsumptions = new RegisterJsonParser( jsonBody ).parse();
 
-        LOG.debug( "Parsed FuelConsumption from JSON: {}", fuelConsumption );
+        LOG.debug( "Parsed FuelConsumption from JSON: {}", fuelConsumptions );
 
         return ResponseEntity.accepted()
             .build();
