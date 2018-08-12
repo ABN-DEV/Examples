@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +30,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table( name = "FUEL_CONSUMPTION" )
 public class FuelConsumption {
+
+    @Id
+    @GeneratedValue
+    @Column
+    private Long gid;
 
     @Column
     @Convert( converter = FuelType.Converter.class )
@@ -70,6 +77,27 @@ public class FuelConsumption {
         this.volume = volume;
         this.date = date;
         this.driverId = driverId;
+    }
+
+    /**
+     * Getter.
+     * 
+     * @return the gid
+     */
+    public Long getGid() {
+
+        return gid;
+    }
+
+    /**
+     * Setter.
+     * 
+     * @param gid
+     *            the gid to set
+     */
+    public void setGid( Long gid ) {
+
+        this.gid = gid;
     }
 
     /**

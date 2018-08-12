@@ -166,5 +166,4 @@ public class ResgisterControllerTests {
 
     }
 
-//    fail( "Not yet implemented" );
 }

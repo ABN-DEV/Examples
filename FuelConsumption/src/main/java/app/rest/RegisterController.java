@@ -8,27 +8,21 @@
  */
 package app.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import app.domain.FuelConsumption;
+import app.repository.FuelConsumptionService;
 
 /**
  * 
@@ -40,9 +34,13 @@ public class RegisterController {
 
     private static final Logger LOG = LoggerFactory.getLogger( RegisterController.class );
 
+    @Autowired
+    private FuelConsumptionService fuelConsumptionService;
+
     /**
-     * @param fuelConsumption
-     * @return
+     * @param jsonBody
+     *            - a JSON string of {@link FuelConsumption} Object or Array of {@link FuelConsumption} Object
+     * @return the result of registering fuel consumption..
      */
     @PostMapping( value = {"/register"},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE} )
@@ -59,7 +57,17 @@ public class RegisterController {
 
         LOG.debug( "Parsed FuelConsumption from JSON: {}", fuelConsumptions );
 
-        return ResponseEntity.accepted()
+        List<FuelConsumption> savedFuelConsumptions =
+            (List<FuelConsumption>) fuelConsumptionService.saveAll( fuelConsumptions );
+
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+//            .path( "/{id}" )
+//            .buildAndExpand( savedUser.getGid() )
+//            .toUri();
+
+        LOG.debug( "Saved Fuel Consumptions: {}", savedFuelConsumptions );
+
+        return ResponseEntity.ok()
             .build();
     }
 
