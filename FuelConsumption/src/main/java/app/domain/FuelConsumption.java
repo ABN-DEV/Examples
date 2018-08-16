@@ -33,8 +33,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table( name = "FUEL_CONSUMPTION",
 
-        indexes = {@Index( columnList = "fuelType,price,volume,date,driverId",
-                name = "unq_fuel_pr_vol_date_driver", unique = true )}
+        indexes = {
+
+            @Index( columnList = "fuelType,price,volume,date,driverId", name = "unq_fuel_pr_vol_date_driver",
+                    unique = true ),
+            @Index( columnList = "date", name = "ind_date", unique = false ),
+            @Index( columnList = "driverId", name = "ind_driver", unique = false ),
+
+        }
 
 )
 public class FuelConsumption {

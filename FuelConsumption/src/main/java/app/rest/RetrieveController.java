@@ -8,7 +8,10 @@
  */
 package app.rest;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentMap;
+
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.domain.FuelConsumption;
 import app.json.TotalSpentAmount;
 import app.service.FuelConsumptionService;
 
@@ -39,18 +45,56 @@ public class RetrieveController {
     /**
      * Retrieve total spent amount of money grouped by month.
      * 
-     * @return
+     * @return Total spent amount gouped by month.
      */
-    @GetMapping( produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
-    public ResponseEntity<Object> retrieveTotal() {
-
-        ResponseEntity<Object> result = null;
+    @GetMapping( path = {MAIN_URL + "/total"}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+    public ResponseEntity<Object>
+            retrieveTotal( @RequestParam( required = false, name = "driver" ) Integer driverId ) {
 
         ConcurrentMap<String, TotalSpentAmount> totalSpentAmount =
-            fuelConsumptionService.findTotalSpentAmount( null );
+            fuelConsumptionService.findTotalSpentAmount( driverId );
 
-        return result.ok()
+        return ResponseEntity.ok()
             .body( totalSpentAmount );
+    }
+
+    /**
+     * @param year
+     *            is a year in format 'yyyy'
+     * @param month
+     *            is a month digit from 1 to 12.
+     * @param driverId
+     * @return fuel consumption records for specified month.
+     */
+    @GetMapping( path = {MAIN_URL + "/list/{year}-{month}"},
+            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+    public ResponseEntity<Object> retrieveFuelConsumptionForMonth( @PathVariable( name = "year" ) int year,
+            @PathVariable( name = "month" ) int month,
+            @RequestParam( required = false, name = "driver" ) Integer driverId ) {
+
+        Collection<FuelConsumption> allFuelConsumptionByMonth =
+            fuelConsumptionService.findByMonth( year, month, driverId );
+
+        return ResponseEntity.ok()
+            .body( allFuelConsumptionByMonth );
+    }
+
+    /**
+     * 
+     * @param year
+     * @param month
+     * @param driverId
+     * @return
+     */
+    @GetMapping( path = {MAIN_URL + "/statistics"}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+    public ResponseEntity<Object> retrieveStatisticsFuelConsumption(
+            @RequestParam( required = false, name = "driver" ) Integer driverId ) {
+
+        Collection<FuelConsumption> allFuelConsumptionByMonth =
+            fuelConsumptionService.findStatistics( driverId );
+
+        return ResponseEntity.ok()
+            .body( allFuelConsumptionByMonth );
     }
 
 }

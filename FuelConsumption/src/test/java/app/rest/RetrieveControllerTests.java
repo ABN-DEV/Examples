@@ -65,10 +65,7 @@ public class RetrieveControllerTests {
     @Test
     public void test_retrieve_total_get() {
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get( RetrieveController.MAIN_URL )
-//            .contentType( MediaType.APPLICATION_JSON_UTF8_VALUE )
-//            .content( new byte[] {} )
-        ;
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get( RetrieveController.MAIN_URL );
 
         try {
             ResultActions mvcResult = mockMvc.perform( requestBuilder )

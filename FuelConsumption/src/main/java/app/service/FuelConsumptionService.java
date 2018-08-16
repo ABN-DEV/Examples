@@ -58,8 +58,15 @@ public class FuelConsumptionService {
         final ConcurrentMap<String, TotalSpentAmount> totalAmount =
             new ConcurrentHashMap<String, TotalSpentAmount>();
 
-        final Collection<FuelConsumption> totalFuelConsumption =
-            fuelConsumptionRepository.findTotalSpentAmountPerMonth();
+        Collection<FuelConsumption> totalFuelConsumption = null;
+
+        if ( driverId == null ) {
+            totalFuelConsumption = fuelConsumptionRepository.findTotalSpentAmountPerMonth();
+
+        } else {
+            totalFuelConsumption = fuelConsumptionRepository.findTotalSpentAmountPerMonthByDriver( driverId );
+
+        }
 
         totalFuelConsumption.stream()
             .forEach( fc -> {
@@ -81,5 +88,47 @@ public class FuelConsumptionService {
             } );
 
         return totalAmount;
+    }
+
+    /**
+     * @param year
+     * @param month
+     *            is the digit from 1 to 12.
+     * @param driverId
+     *            is a nullable.
+     * @return {@link Collection} of {@link FuelConsumption}s.
+     */
+    public Collection<FuelConsumption> findByMonth( int year,
+            int month,
+            Integer driverId ) {
+
+        Collection<FuelConsumption> fuelConsumptions = null;
+        if ( driverId == null ) {
+            fuelConsumptions = fuelConsumptionRepository.findRecordsForMonth( year, month );
+
+        } else {
+            fuelConsumptions = fuelConsumptionRepository.findRecordsForMonthByDriver( year, month, driverId );
+        }
+        return fuelConsumptions;
+    }
+
+    /**
+     * Statistics for each month, list fuel consumption records grouped by fuel type (each row should contain:
+     * fuel type, volume, average price, total price)
+     * 
+     * @param driverId
+     *            is a drive ID
+     * @return {@link Collection} of {@link FuelConsumption}s.
+     */
+    public Collection<FuelConsumption> findStatistics( Integer driverId ) {
+
+        Collection<FuelConsumption> fuelConsumptions = null;
+        if ( driverId == null ) {
+            fuelConsumptions = fuelConsumptionRepository.findStatistics();
+
+        } else {
+            fuelConsumptions = fuelConsumptionRepository.findStatisticsByDriver( driverId );
+        }
+        return fuelConsumptions;
     }
 }
