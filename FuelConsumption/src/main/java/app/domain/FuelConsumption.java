@@ -24,12 +24,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Fuel Consumption data.
  * 
  * @since 2018.08.11
  * @author Andre.B.Nikitin
  */
+@ApiModel( description = "All details a Fuel consumption." )
 @Entity
 @Table( name = "FUEL_CONSUMPTION",
 
@@ -45,6 +49,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 )
 public class FuelConsumption {
 
+    private static final String NOTE_FUEL_TYPE = "Fuel type can be `95`,`98`,`D` ";
+
+    private static final String NOTE_DATE = "Date must have format `MM.dd.yyyy` ";
+
     @Id
     @GeneratedValue
     @Column
@@ -52,6 +60,7 @@ public class FuelConsumption {
 
     @Column
     @Convert( converter = FuelType.Converter.class )
+    @ApiModelProperty( notes = NOTE_FUEL_TYPE )
     private FuelType fuelType;
 
     @Column
@@ -65,6 +74,7 @@ public class FuelConsumption {
     @Column
     @DateTimeFormat( pattern = "MM.dd.yyyy" )
     @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "MM.dd.yyyy" )
+    @ApiModelProperty( notes = NOTE_DATE)
     private LocalDate date;
 
     @Column

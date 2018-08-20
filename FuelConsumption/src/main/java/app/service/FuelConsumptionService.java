@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import app.domain.FuelConsumption;
 import app.json.TotalSpentAmount;
 import app.repository.FuelConsumptionRepository;
+import app.rest.exception.DriverNotFoundException;
 
 /**
  * 
@@ -64,8 +65,8 @@ public class FuelConsumptionService {
             totalFuelConsumption = fuelConsumptionRepository.findTotalSpentAmountPerMonth();
 
         } else {
+            checkDriverId( driverId );
             totalFuelConsumption = fuelConsumptionRepository.findTotalSpentAmountPerMonthByDriver( driverId );
-
         }
 
         totalFuelConsumption.stream()
@@ -107,6 +108,7 @@ public class FuelConsumptionService {
             fuelConsumptions = fuelConsumptionRepository.findRecordsForMonth( year, month );
 
         } else {
+            checkDriverId( driverId );
             fuelConsumptions = fuelConsumptionRepository.findRecordsForMonthByDriver( year, month, driverId );
         }
         return fuelConsumptions;
@@ -127,8 +129,23 @@ public class FuelConsumptionService {
             fuelConsumptions = fuelConsumptionRepository.findStatistics();
 
         } else {
+            checkDriverId( driverId );
             fuelConsumptions = fuelConsumptionRepository.findStatisticsByDriver( driverId );
         }
         return fuelConsumptions;
+    }
+
+    /**
+     * It checks driverId. At the moment based on FuelConsumption records.
+     * 
+     * @param driverId
+     */
+    public void checkDriverId( Integer driverId ) {
+
+        final Collection<FuelConsumption> findOneByDriverId =
+            fuelConsumptionRepository.findOneByDriverId( driverId );
+        if ( findOneByDriverId == null || findOneByDriverId.size() == 0 ) {
+            throw new DriverNotFoundException( "Driver [id:" + driverId + "] not found." );
+        }
     }
 }

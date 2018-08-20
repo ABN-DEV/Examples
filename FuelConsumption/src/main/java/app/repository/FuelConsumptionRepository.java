@@ -26,6 +26,10 @@ import app.json.TotalSpentAmount;
 @Repository
 public interface FuelConsumptionRepository extends CrudRepository<FuelConsumption, Long> {
 
+
+//    @Query( value = " SELECT fc FROM FuelConsumption fc WHERE fc.driverId = ?1 ORDER BY fc.date asc " )
+    Collection<FuelConsumption> findOneByDriverId( Integer driverId );
+
     /**
      * Found all FuelConsumption.
      * 
@@ -73,12 +77,6 @@ public interface FuelConsumptionRepository extends CrudRepository<FuelConsumptio
     Collection<FuelConsumption> findStatistics();
 
     /**
-     * SELECT extract( year from fc.date) as y, extract( month from fc.date) as m, fc.fuel_type, SUM(
-     * fc.volume), avg( fc.price), sum(fc.price)
-     * 
-     * FROM FUEL_CONSUMPTION fc GROUP BY extract( year from fc.date), extract( month from fc.date) ,
-     * fc.fuel_type
-     * 
      * @param driver
      * @return
      */
