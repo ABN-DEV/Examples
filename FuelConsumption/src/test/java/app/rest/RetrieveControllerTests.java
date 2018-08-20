@@ -28,6 +28,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import app.rest.exception.DriverNotFoundException;
+
 /**
  * 
  * @since 2018.08.12
@@ -63,17 +65,95 @@ public class RetrieveControllerTests {
     }
 
     @Test
-    public void test_retrieve_total_get() {
+    public void test_retrieve_total_get() throws Exception {
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get( RetrieveController.MAIN_URL );
+        RequestBuilder requestBuilder =
+            MockMvcRequestBuilders.get( RetrieveController.MAIN_URL + RetrieveController.TOTAL_URL );
 
-        try {
-            ResultActions mvcResult = mockMvc.perform( requestBuilder )
-                .andExpect( status().isOk() );
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isOk() );
 
-        } catch (Exception e) {
-            LOG.error( "GET {} failed ", RetrieveController.MAIN_URL, e );
-        }
+    }
+
+    @Test
+    public void test_get_retrieve_total_Driver() throws Exception {
+
+        RequestBuilder requestBuilder =
+            MockMvcRequestBuilders.get( RetrieveController.MAIN_URL + RetrieveController.TOTAL_URL )
+                .param( "driver", "2" );
+
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isOk() );
+
+    }
+
+    @Test
+    public void test_get_retrieve_total_Driver_NotFound() throws Exception {
+
+        RequestBuilder requestBuilder =
+            MockMvcRequestBuilders.get( RetrieveController.MAIN_URL + RetrieveController.TOTAL_URL )
+                .param( "driver", "11" );
+
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isNotFound() );
+
+    }
+
+    @Test
+    public void test_retrieve_statistics_get() throws Exception {
+
+        RequestBuilder requestBuilder =
+            MockMvcRequestBuilders.get( RetrieveController.MAIN_URL + RetrieveController.STATISTICS_SUB_URL );
+
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isOk() );
+
+    }
+
+    @Test
+    public void test_get_retrieve_statistics_Driver() throws Exception {
+
+        RequestBuilder requestBuilder =
+            MockMvcRequestBuilders.get( RetrieveController.MAIN_URL + RetrieveController.STATISTICS_SUB_URL )
+                .param( "driver", "2" );
+
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isOk() );
+
+    }
+
+    @Test
+    public void test_get_retrieve_statistics_Driver_NotFound() throws Exception {
+
+        RequestBuilder requestBuilder =
+            MockMvcRequestBuilders.get( RetrieveController.MAIN_URL + RetrieveController.STATISTICS_SUB_URL )
+                .param( "driver", "11" );
+
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isNotFound() );
+
+    }
+
+    @Test
+    public void test_get_retrieve_list_get() throws Exception {
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get( RetrieveController.MAIN_URL + RetrieveController.LIST_SUB_URL, 2018, 12 );
+
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isOk() );
+
+    }
+
+    @Test
+    public void test_get_retrieve_list_Driver_NotFound() throws Throwable {
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get( RetrieveController.MAIN_URL + RetrieveController.LIST_SUB_URL, 2018, 12 )
+            .param( "driver", "11" );
+
+        ResultActions mvcResult = mockMvc.perform( requestBuilder )
+            .andExpect( status().isNotFound() );
 
     }
 

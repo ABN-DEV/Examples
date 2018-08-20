@@ -37,7 +37,13 @@ public class RetrieveController {
 
     public static final String MAIN_URL = "/retrieve";
 
-    private static final Logger LOG = LoggerFactory.getLogger( RetrieveController.class );
+    public static final Logger LOG = LoggerFactory.getLogger( RetrieveController.class );
+
+    public static final String TOTAL_URL = "/total";
+
+    public static final String STATISTICS_SUB_URL = "/statistics";
+
+    public static final String LIST_SUB_URL = "/list/{year}-{month}";
 
     @Autowired
     private FuelConsumptionService fuelConsumptionService;
@@ -47,7 +53,7 @@ public class RetrieveController {
      * 
      * @return Total spent amount gouped by month.
      */
-    @GetMapping( path = {MAIN_URL + "/total"}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+    @GetMapping( path = {MAIN_URL + TOTAL_URL}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object>
             retrieveTotal( @RequestParam( required = false, name = "driver" ) Integer driverId ) {
 
@@ -66,8 +72,7 @@ public class RetrieveController {
      * @param driverId
      * @return fuel consumption records for specified month.
      */
-    @GetMapping( path = {MAIN_URL + "/list/{year}-{month}"},
-            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+    @GetMapping( path = {MAIN_URL + LIST_SUB_URL}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object> retrieveFuelConsumptionForMonth( @PathVariable( name = "year" ) int year,
             @PathVariable( name = "month" ) int month,
             @RequestParam( required = false, name = "driver" ) Integer driverId ) {
@@ -86,7 +91,7 @@ public class RetrieveController {
      * @param driverId
      * @return
      */
-    @GetMapping( path = {MAIN_URL + "/statistics"}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+    @GetMapping( path = {MAIN_URL + STATISTICS_SUB_URL}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object> retrieveStatisticsFuelConsumption(
             @RequestParam( required = false, name = "driver" ) Integer driverId ) {
 
