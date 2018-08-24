@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import app.domain.FuelConsumption;
+import app.json.FuelConsumptionStatistic;
 import app.json.TotalSpentAmount;
 import app.repository.FuelConsumptionRepository;
 import app.rest.exception.DriverNotFoundException;
@@ -122,9 +123,9 @@ public class FuelConsumptionService {
      *            is a drive ID
      * @return {@link Collection} of {@link FuelConsumption}s.
      */
-    public Collection<FuelConsumption> findStatistics( Integer driverId ) {
+    public Collection<FuelConsumptionStatistic> findStatistics( Integer driverId ) {
 
-        Collection<FuelConsumption> fuelConsumptions = null;
+        Collection<FuelConsumptionStatistic> fuelConsumptions = null;
         if ( driverId == null ) {
             fuelConsumptions = fuelConsumptionRepository.findStatistics();
 

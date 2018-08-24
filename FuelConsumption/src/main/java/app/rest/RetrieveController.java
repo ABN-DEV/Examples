@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.domain.FuelConsumption;
+import app.json.FuelConsumptionStatistic;
 import app.json.TotalSpentAmount;
 import app.service.FuelConsumptionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 
@@ -53,6 +56,7 @@ public class RetrieveController {
      * 
      * @return Total spent amount gouped by month.
      */
+    @ApiOperation( value = "Retrieve total spent amount of money grouped by month." )
     @GetMapping( path = {MAIN_URL + TOTAL_URL}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object>
             retrieveTotal( @RequestParam( required = false, name = "driver" ) Integer driverId ) {
@@ -72,6 +76,9 @@ public class RetrieveController {
      * @param driverId
      * @return fuel consumption records for specified month.
      */
+    @ApiOperation(
+            notes = "(each row should contain: fuel type, volume, date, price, total price, driver ID) .",
+            value = "A list fuel consumption records for specified month." )
     @GetMapping( path = {MAIN_URL + LIST_SUB_URL}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object> retrieveFuelConsumptionForMonth( @PathVariable( name = "year" ) int year,
             @PathVariable( name = "month" ) int month,
@@ -91,11 +98,13 @@ public class RetrieveController {
      * @param driverId
      * @return
      */
+    @ApiOperation( notes = " (each row should contain: fuel type, volume, average price, total price).",
+            value = "The statistics for each month, list fuel consumption records grouped by fuel type." )
     @GetMapping( path = {MAIN_URL + STATISTICS_SUB_URL}, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object> retrieveStatisticsFuelConsumption(
             @RequestParam( required = false, name = "driver" ) Integer driverId ) {
 
-        Collection<FuelConsumption> allFuelConsumptionByMonth =
+        Collection<FuelConsumptionStatistic> allFuelConsumptionByMonth =
             fuelConsumptionService.findStatistics( driverId );
 
         return ResponseEntity.ok()

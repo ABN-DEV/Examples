@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import app.domain.FuelConsumption;
 import app.service.FuelConsumptionService;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 
@@ -42,6 +43,9 @@ public class RegisterController {
      *            - a JSON string of {@link FuelConsumption} Object or Array of {@link FuelConsumption} Object
      * @return the result of registering fuel consumption..
      */
+    @ApiOperation( value = "It registers a fuel consumption.",
+            notes = "It is possible ti register one single record or bulk consumption (array of records)." )
+
     @PostMapping( value = {"/register"},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE} )
     public ResponseEntity<Object> registerRecord( @RequestBody( required = true ) String jsonBody ) {

@@ -1,0 +1,7 @@
+
+SELECT * FROM FUEL_CONSUMPTION fc
+where 1=1
+-- and extract( month from fc.date) = 12 
+-- and fuel_type = '95' 
+and driver_id = 1
+order by fc.date

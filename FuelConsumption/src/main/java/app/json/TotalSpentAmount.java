@@ -95,18 +95,4 @@ public class TotalSpentAmount {
         return builder.toString();
     }
 
-//    /**
-//     * Add amount.
-//     * 
-//     * @param key
-//     *            the month in format yyyy-MM
-//     * 
-//     * @param amount
-//     *            an amount as (price * volume).
-//     */
-//    public void add( String key,
-//            BigDecimal amount ) {
-//
-//        this.amount = this.amount.add( amount );
-//    }
 }

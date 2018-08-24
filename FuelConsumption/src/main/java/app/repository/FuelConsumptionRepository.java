@@ -15,7 +15,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import app.domain.FuelConsumption;
-import app.json.TotalSpentAmount;
+import app.json.FuelConsumptionStatistic;
 
 /**
  * {@link FuelConsumption} repository interface.
@@ -25,7 +25,6 @@ import app.json.TotalSpentAmount;
  */
 @Repository
 public interface FuelConsumptionRepository extends CrudRepository<FuelConsumption, Long> {
-
 
 //    @Query( value = " SELECT fc FROM FuelConsumption fc WHERE fc.driverId = ?1 ORDER BY fc.date asc " )
     Collection<FuelConsumption> findOneByDriverId( Integer driverId );
@@ -69,22 +68,32 @@ public interface FuelConsumptionRepository extends CrudRepository<FuelConsumptio
             int month,
             Integer driverId );
 
-    @Query( value = " SELECT year(fc.date) as y, month(fc.date) as m, fc.fuelType, sum(fc.volume) as sumv, "
-        + "avg(fc.price) as avgprice, sum(fc.price) as sumprice "
+    /**
+     * FuelConsumption Statistics w/o driver
+     * 
+     * @return
+     */
+    @Query( value = " SELECT new app.json.FuelConsumptionStatistic( "
+        + "year(fc.date) as year, month(fc.date) as month, fc.fuelType, "
+        + "sum(fc.volume) as volume, avg(fc.price) as price, sum(fc.price*fc.volume) as total_price) "
         + " FROM FuelConsumption fc "
         + " GROUP BY year(fc.date), month(fc.date), fc.fuelType "
-        + " ORDER BY y, m " )
-    Collection<FuelConsumption> findStatistics();
+        + " ORDER BY year, month" )
+    Collection<FuelConsumptionStatistic> findStatistics();
 
     /**
+     * FuelConsumption Statistics by driver.
+     * 
      * @param driver
      * @return
      */
-    @Query( value = " SELECT year(fc.date) as y, month(fc.date) as m, fc.fuelType, sum(fc.volume), avg(fc.price), sum(fc.price) "
+    @Query( value = " SELECT new app.json.FuelConsumptionStatistic( "
+        + "year(fc.date) as year, month(fc.date) as month, fc.fuelType, "
+        + "sum(fc.volume) as volume, avg(fc.price) as price, sum(fc.price*fc.volume) as total_price) "
         + " FROM FuelConsumption fc "
         + " where fc.driverId = ?1 "
         + " GROUP BY year(fc.date), month(fc.date), fc.fuelType "
-        + " ORDER BY y, m" )
-    Collection<FuelConsumption> findStatisticsByDriver( Integer driver );
+        + " ORDER BY year, month" )
+    Collection<FuelConsumptionStatistic> findStatisticsByDriver( Integer driver );
 
 }
