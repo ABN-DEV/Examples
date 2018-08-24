@@ -8,4 +8,17 @@
 3. Database. 
 - It has default data in file: /FuelConsumption/src/main/resources/data.sql
 
+4. TESTS for 
+4.1 /register 
+4.1.1 Check violation for Duplicate values.
+4.1.2 Violation empty records 
+4.1.1 Register single object 
+4.1.1 Register array of objects 
+
+4.2 Repository  
+4.2.1 
+4.2.1 
+4.2.1 
+4.2.1 
+ 
 

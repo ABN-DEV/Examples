@@ -8,19 +8,22 @@
  */
 package app.servies;
 
-import static app.rest.RegisterJsonParserTests.DATE_2019_01_30;
+import static app.rest.RegisterJsonParserTests.DATE_1991_01_30;
 import static app.rest.RegisterJsonParserTests.DRIVER_ID_1;
 import static app.rest.RegisterJsonParserTests.FUEL_TYPE_95;
-import static app.rest.RegisterJsonParserTests.PRICE_11_23;
-import static app.rest.RegisterJsonParserTests.VOLUME_43_21;
+import static app.rest.RegisterJsonParserTests.PRICE_1_01;
+import static app.rest.RegisterJsonParserTests.VOLUME_50_01;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.transaction.Transactional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -41,8 +44,8 @@ import app.service.FuelConsumptionService;
 @RunWith( SpringJUnit4ClassRunner.class )
 @WebAppConfiguration
 @SpringBootTest
-//@Transactional
-//@TransactionConfiguration( defaultRollback = true )
+@Transactional
+@Rollback
 public class FuelConsumptionServiceTests {
 
     @Autowired
@@ -52,7 +55,7 @@ public class FuelConsumptionServiceTests {
     public void test_saveAll_FuelConsumptions() {
 
         FuelConsumption fc =
-            new FuelConsumption( FUEL_TYPE_95, PRICE_11_23, VOLUME_43_21, DATE_2019_01_30, DRIVER_ID_1 );
+            new FuelConsumption( FUEL_TYPE_95, PRICE_1_01, VOLUME_50_01, DATE_1991_01_30, DRIVER_ID_1 );
 
         assertNull( fc.getGid() );
 
@@ -71,7 +74,7 @@ public class FuelConsumptionServiceTests {
     public void test_saveAll_contraint() {
 
         FuelConsumption fc =
-            new FuelConsumption( FUEL_TYPE_95, PRICE_11_23, VOLUME_43_21, DATE_2019_01_30, DRIVER_ID_1 );
+            new FuelConsumption( FUEL_TYPE_95, PRICE_1_01, VOLUME_50_01, DATE_1991_01_30, DRIVER_ID_1 );
 
         final ArrayList<FuelConsumption> fuelConsumptions = new ArrayList<FuelConsumption>();
         fuelConsumptions.add( fc );

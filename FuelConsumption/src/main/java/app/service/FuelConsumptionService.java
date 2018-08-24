@@ -18,7 +18,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import app.domain.FuelConsumption;
@@ -26,6 +29,8 @@ import app.json.FuelConsumptionStatistic;
 import app.json.TotalSpentAmount;
 import app.repository.FuelConsumptionRepository;
 import app.rest.exception.DriverNotFoundException;
+import app.rest.exception.DuplicateRecordsException;
+import app.rest.exception.InternalServerException;
 
 /**
  * 
@@ -45,7 +50,19 @@ public class FuelConsumptionService {
      */
     public Collection<FuelConsumption> saveAll( Collection<FuelConsumption> fuelConsumptions ) {
 
-        return (Collection<FuelConsumption>) fuelConsumptionRepository.saveAll( fuelConsumptions );
+        Collection<FuelConsumption> saveAll = null;
+
+        try {
+            saveAll = (Collection<FuelConsumption>) fuelConsumptionRepository.saveAll( fuelConsumptions );
+
+        } catch (DataIntegrityViolationException | ConstraintViolationException e) {
+            throw new DuplicateRecordsException( e );
+
+        } catch (Exception e) {
+            throw new InternalServerException( e );
+        }
+
+        return saveAll;
     }
 
     /**

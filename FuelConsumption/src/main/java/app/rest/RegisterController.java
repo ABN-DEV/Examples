@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.domain.FuelConsumption;
@@ -31,6 +32,9 @@ import io.swagger.annotations.ApiOperation;
  * @author Andre.B.Nikitin
  */
 @RestController
+@RequestMapping( path = {"/register"},
+        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE},
+        produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
 public class RegisterController {
 
     private static final Logger LOG = LoggerFactory.getLogger( RegisterController.class );
@@ -46,9 +50,8 @@ public class RegisterController {
     @ApiOperation( value = "It registers a fuel consumption.",
             notes = "It is possible ti register one single record or bulk consumption (array of records)." )
 
-    @PostMapping( value = {"/register"},
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE} )
-    public ResponseEntity<Object> registerRecord( @RequestBody( required = true ) String jsonBody ) {
+    @PostMapping
+    public ResponseEntity<Object> registerRecord( @RequestBody( required = false ) String jsonBody ) {
 
         LOG.debug( "JSON body: {}", jsonBody );
 

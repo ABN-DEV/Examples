@@ -34,7 +34,7 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
     /*
      * All INternal Errors response.
      */
-    @ExceptionHandler( Exception.class )
+    @ExceptionHandler( {Exception.class, InternalServerException.class} )
     public final ResponseEntity<Object> handleAllExceptions( Exception ex,
             WebRequest request ) {
 
@@ -61,6 +61,24 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
             new ExceptionResponse( LocalDateTime.now(), ex.getMessage(), request.getDescription( false ) );
 
         return new ResponseEntity<Object>( exceptionResponse, HttpStatus.NOT_FOUND );
+    }
+
+    /**
+     * 500 error
+     * 
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler( DuplicateRecordsException.class )
+    public final ResponseEntity<Object> handleDuplicateRecordsException( Exception ex,
+            WebRequest request ) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse( LocalDateTime.now(),
+            "Posible error is Duplicate records. " + ex.getMessage(),
+            request.getDescription( false ) );
+
+        return new ResponseEntity<Object>( exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR );
     }
 
     /**

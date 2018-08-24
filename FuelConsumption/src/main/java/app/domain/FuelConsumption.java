@@ -15,8 +15,10 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 
@@ -39,22 +41,26 @@ import io.swagger.annotations.ApiModelProperty;
 
         indexes = {
 
-            @Index( columnList = "fuelType,price,volume,date,driverId", name = "unq_fuel_pr_vol_date_driver",
-                    unique = true ),
+            @Index( unique = true, columnList = "fuelType,price,volume,date,driverId",
+                    name = "unq_fuel_pr_vol_date_driver" ),
             @Index( columnList = "date", name = "ind_date", unique = false ),
             @Index( columnList = "driverId", name = "ind_driver", unique = false ),
 
         }
 
 )
+@SequenceGenerator( name = FuelConsumption.FUEL_CONSUMPTION_SEQUENCE, initialValue = 1000,
+        allocationSize = 1 )
 public class FuelConsumption {
+
+    static final String FUEL_CONSUMPTION_SEQUENCE = "fuel_consumption_sequence";
 
     private static final String NOTE_FUEL_TYPE = "Fuel type can be `95`,`98`,`D` ";
 
     private static final String NOTE_DATE = "Date must have format `MM.dd.yyyy` ";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = FUEL_CONSUMPTION_SEQUENCE )
     @Column
     private Long gid;
 
@@ -74,7 +80,7 @@ public class FuelConsumption {
     @Column
     @DateTimeFormat( pattern = "MM.dd.yyyy" )
     @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "MM.dd.yyyy" )
-    @ApiModelProperty( notes = NOTE_DATE)
+    @ApiModelProperty( notes = NOTE_DATE )
     private LocalDate date;
 
     @Column
