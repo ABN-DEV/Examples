@@ -17,16 +17,22 @@ import static app.rest.RegisterJsonParserTests.VOLUME_50_01;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.assertEquals;
@@ -34,6 +40,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import app.domain.FuelConsumption;
+import app.repository.FuelConsumptionRepository;
+import app.rest.exception.DuplicateRecordsException;
 import app.service.FuelConsumptionService;
 
 /**
@@ -48,53 +56,31 @@ import app.service.FuelConsumptionService;
 @WebAppConfiguration
 @SpringBootTest
 @Rollback
-@Transactional
-public class FuelConsumptionServiceTests {
-
-    private static final Logger LOG = LoggerFactory.getLogger( FuelConsumptionServiceTests.class );
+public class FuelConsumptionServiceTests2 {
 
     @Autowired
     private FuelConsumptionService fuelConsumptionService;
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
-    public void test_saveAll_FuelConsumptions() {
+    public void test_saveAll_contraint() {
 
         FuelConsumption fc =
             new FuelConsumption( FUEL_TYPE_95, PRICE_1_01, VOLUME_50_01, DATE_1991_01_30, DRIVER_ID_1 );
 
-        assertNull( fc.getGid() );
+        Collection<FuelConsumption> fuelConsumptions = new ArrayList<FuelConsumption>();
+        fuelConsumptions.add( fc );
 
-        final Collection<FuelConsumption> fuelConsumptions = new ArrayList<FuelConsumption>();
+        thrown.expect( DuplicateRecordsException.class );
+
+        // add same record 
+        fc = new FuelConsumption( FUEL_TYPE_95, PRICE_1_01, VOLUME_50_01, DATE_1991_01_30, DRIVER_ID_1 );
         fuelConsumptions.add( fc );
 
         Collection<FuelConsumption> saved = fuelConsumptionService.saveAll( fuelConsumptions );
 
-        assertNotNull( saved );
-
-        assertNotNull( ( (FuelConsumption) saved.iterator()
-            .next() ).getGid() );
-    }
-
-    @Test
-    public void test_saveAll_1_fuelConsumption() {
-
-        FuelConsumption fc =
-            new FuelConsumption( FUEL_TYPE_95, PRICE_1_01, VOLUME_50_01, DATE_1991_01_30, DRIVER_ID_1 );
-
-        final Collection<FuelConsumption> fuelConsumptions = new ArrayList<FuelConsumption>();
-        fuelConsumptions.add( fc );
-
-        Collection<FuelConsumption> saved = fuelConsumptionService.saveAll( fuelConsumptions );
-
-        assertEquals( "Must be one object.", Integer.valueOf( 1 ), Integer.valueOf( saved.size() ) );
-
-        final Long gid = saved.iterator()
-            .next()
-            .getGid();
-
-        assertNotNull( "GID must defined and not null.", gid );
-
-        LOG.debug( "new gid = {}", gid );
     }
 
 }
