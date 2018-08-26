@@ -17,7 +17,9 @@ import static app.rest.RegisterJsonParserTests.VOLUME_50_01;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.transaction.Transactional;
+import org.junit.Before;
+
+// import javax.transaction.Transactional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -34,6 +35,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import app.domain.FuelConsumption;
+import app.repository.FuelConsumptionRepository;
 import app.service.FuelConsumptionService;
 
 /**
@@ -47,14 +49,21 @@ import app.service.FuelConsumptionService;
 @RunWith( SpringJUnit4ClassRunner.class )
 @WebAppConfiguration
 @SpringBootTest
-@Rollback
-@Transactional
 public class FuelConsumptionServiceTests {
 
     private static final Logger LOG = LoggerFactory.getLogger( FuelConsumptionServiceTests.class );
 
     @Autowired
     private FuelConsumptionService fuelConsumptionService;
+
+    @Autowired
+    private FuelConsumptionRepository fuelConsumptionRepository;
+
+    @Before
+    public void before() {
+
+        fuelConsumptionRepository.deleteAll();
+    };
 
     @Test
     public void test_saveAll_FuelConsumptions() {

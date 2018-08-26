@@ -86,8 +86,6 @@ public class RegisterJsonParserTests {
             new FuelConsumption( FUEL_TYPE_95, PRICE_1_01, VOLUME_50_01, DATE_1990_11_30, DRIVER_ID_1 ) );
 
         expectedArrayFuelConsumptions = new ArrayList<>();
-        expectedArrayFuelConsumptions.add(
-            new FuelConsumption( FUEL_TYPE_95, PRICE_1_01, VOLUME_50_01, DATE_1990_11_30, DRIVER_ID_1 ) );
 
         expectedArrayFuelConsumptions.add(
             new FuelConsumption( FUEL_TYPE_98, PRICE_2_02, VOLUME_60_02, DATE_1990_12_30, DRIVER_ID_2 ) );

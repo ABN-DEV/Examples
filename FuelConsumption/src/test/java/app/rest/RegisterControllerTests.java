@@ -58,6 +58,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith( SpringRunner.class )
 @WebAppConfiguration
 @SpringBootTest
+@Rollback
 public class RegisterControllerTests {
 
     public static String JSON_MOCKED_REQUEST_1_OBJECT = "{\"fuelType\":\"" + FUEL_TYPE_95.getValue()

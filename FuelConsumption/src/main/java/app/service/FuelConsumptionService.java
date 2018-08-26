@@ -100,10 +100,20 @@ public class FuelConsumptionService {
                     currentTotalAmount = totalAmount.get( key );
                     amount = currentTotalAmount.getAmount();
                 }
-                totalAmount.put( key,
-                    new TotalSpentAmount( key,
+                TotalSpentAmount totalSpentAmount = null;
+                if ( driverId != null ) {
+                    totalSpentAmount = new TotalSpentAmount( driverId,
+                        key,
                         amount.add( fc.getPrice()
-                            .multiply( fc.getVolume() ) ) ) );
+                            .multiply( fc.getVolume() ) ) );
+
+                } else {
+                    totalSpentAmount = new TotalSpentAmount( key,
+                        amount.add( fc.getPrice()
+                            .multiply( fc.getVolume() ) ) );
+                }
+                totalAmount.put( key, totalSpentAmount );
+
             } );
 
         return totalAmount;
