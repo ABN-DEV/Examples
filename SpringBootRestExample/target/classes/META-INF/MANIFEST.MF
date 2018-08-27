@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: SpringBootRestExample
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Andre.B.Nikitin
+Implementation-Vendor-Id: com.abndev.example
+Build-Jdk: 1.8.0_151
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/SpringBootRestExample
+Created-By: Maven Integration for Eclipse
+

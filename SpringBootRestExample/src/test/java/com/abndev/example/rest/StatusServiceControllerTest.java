@@ -30,7 +30,27 @@ import org.springframework.web.context.WebApplicationContext;
  * @since 2018.05.30
  * @author annik
  */
-public class StatusServiceControllerTests extends AbstractTests {
+//@RunWith( SpringJUnit4ClassRunner.class )
+@RunWith( SpringRunner.class )
+@WebAppConfiguration
+@SpringBootTest
+@ContextConfiguration( classes = TestConfig.class )
+public class StatusServiceControllerTest {
+
+    @Autowired
+    private WebApplicationContext wac;
+
+    private MockMvc mockMvc;
+
+    /**
+     * Test Initialization.
+     */
+    @Before
+    public void init() {
+
+        mockMvc = MockMvcBuilders.webAppContextSetup( wac )
+            .build();
+    }
 
     /**
      * @throws Exception
