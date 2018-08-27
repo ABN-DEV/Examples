@@ -3,7 +3,9 @@
 ## My Java Examples 
 ############################################################
 
-!! WARNING !! Each branch contains ONLY ONE main application (it can be maven single or maven project with modules app).
+!! WARNING !! 
+# Each branch contains ONLY ONE main application (it can be maven single or maven project with modules app).
+# The master branch does not contain any application.
 
 The projects are here : 
 1) Examples/SpringBootRestExample/ - Spring-Boot, Web, Rest, JPA, H2.
