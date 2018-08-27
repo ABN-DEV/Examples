@@ -3,5 +3,6 @@
 ## My Java Examples 
 ############################################################
 
-The projects : 
-1) Examples/SpringBootRestExample/ - Spring-Boot, Web, Rest, JPA, H2.
+The MAIN project is : SpringBootRestExample
+
+It based on Spring-Boot, Web, Rest, DB as ARRAY.
