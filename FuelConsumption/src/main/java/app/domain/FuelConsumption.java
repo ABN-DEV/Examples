@@ -70,11 +70,11 @@ public class FuelConsumption {
     private FuelType fuelType;
 
     @Column
-    @Digits( fraction = 2, integer = 1000000 )
+    @Digits( fraction = 2, integer = 1000000, message = "Price must be in format <1000000 digits>.<2 digits>" )
     private BigDecimal price;
 
     @Column( scale = 2, precision = 2 )
-    @Digits( fraction = 2, integer = 1000000 )
+    @Digits( fraction = 2, integer = 1000000, message = "Volume must be in format <1000000 digits>.<2 digits>" )
     private BigDecimal volume;
 
     @Column

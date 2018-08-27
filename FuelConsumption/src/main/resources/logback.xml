@@ -12,19 +12,19 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.springframework" level="ERROR" />
+<!-- 	<logger name="org.springframework" level="DEBUG" />
 
-	<logger name="org.hibernate" level="ERROR" />
+	<logger name="org.hibernate" level="DEBUG" />
 
-	<logger name="org.hibernate.type" level="ERROR" />
-	<logger name="org.hibernate.SQL" level="ERROR" />
-	<logger name="org.hibernate.hql" level="ERROR" />
-	<logger name="org.hibernate.jdbc" level="ERROR" />
+	<logger name="org.hibernate.type" level="DEBUG" />
+	<logger name="org.hibernate.SQL" level="DEBUG" />
+	<logger name="org.hibernate.hql" level="DEBUG" />
+	<logger name="org.hibernate.jdbc" level="DEBUG" />
 
 	<logger name="net.sf.hibernate.hql.QueryTranslator"
-		level="ERROR" />
-
-	<!-- Escort -->
+		level="DEBUG" />
+ -->
+	<!-- FuelConsumption -->
 	<logger name="app" level="INFO" />
 
 	<root level="ERROR">

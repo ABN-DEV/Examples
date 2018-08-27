@@ -1,9 +1,19 @@
+#########################################################
+## 
+## FUEL CONSUMPTION APP'
+##
+#########################################################
 
 1. How to run the APP: use a file run-web-app.cmd 
 (at WINDOWS OS open CMD, change a directory to the project. Enter the command run-web-app.cmd and press enter)
 
 2. The REST service. 
-- It has swagger description. Open URL http://localhost:8080/swagger-ui.html You can see there all information about REST services and you can try some of them.
+- It has swagger description. This means you have all information about REST services and you can try some of them. 
+Open URL http://localhost:8080/swagger-ui.html 
+To register some records try this JSON data http://localhost:8080/fuelConsumptions or use this example : 
+Single object {"fuelType": "95","price": 1.12,"volume": 10,"date": "08.27.2018","driverId": 1}
+A bulk of cunsumption [{"fuelType": "95","price": 1.12,"volume": 10,"date": "08.27.2018","driverId": 1},{"fuelType": "95","price": 1.12,"volume": 11.01,"date": "08.27.2018","driverId": 1}] 
+
 - API DOCS url is http://localhost:8080/v2/api-docs
 
 3. Database. 
