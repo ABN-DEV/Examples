@@ -12,22 +12,22 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.springframework" level="ERROR" />
+	<logger name="org.springframework" level="INFO" />
 
-	<logger name="org.hibernate" level="ERROR" />
+	<logger name="org.hibernate" level="DEBUG" />
 
-	<logger name="org.hibernate.type" level="ERROR" />
-	<logger name="org.hibernate.SQL" level="ERROR" />
-	<logger name="org.hibernate.hql" level="ERROR" />
-	<logger name="org.hibernate.jdbc" level="ERROR" />
+	<logger name="org.hibernate.type" level="TRACE" />
+	<logger name="org.hibernate.SQL" level="TRACE" />
+	<logger name="org.hibernate.hql" level="TRACE" />
+	<logger name="org.hibernate.jdbc" level="TRACE" />
 
 	<logger name="net.sf.hibernate.hql.QueryTranslator"
-		level="ERROR" />
+		level="TRACE" />
 
 	<!-- Escort -->
-	<logger name="app" level="INFO" />
+	<logger name="app" level="TRACE" />
 
-	<root level="ERROR">
+	<root level="DEBUG">
 		<!-- <appender-ref ref="FILE" /> -->
 		<appender-ref ref="STDOUT" />
 	</root>
